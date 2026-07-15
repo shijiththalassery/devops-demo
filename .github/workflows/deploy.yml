@@ -1,4 +1,4 @@
-name: Build Docker
+name: Build and Deploy
 
 on:
   push:
@@ -6,15 +6,36 @@ on:
       - main
 
 jobs:
-
-  docker:
+  deploy:
 
     runs-on: ubuntu-latest
 
     steps:
 
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Build Docker Image
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
 
-        run: docker build -t devops-web .
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+
+          script: |
+            cd ~/devops-demo
+
+            git pull origin main
+
+            docker build -t devops-web .
+
+            docker stop devops-web || true
+
+            docker rm devops-web || true
+
+            docker run -d \
+              --name devops-web \
+              -p 80:80 \
+              devops-web
+              
