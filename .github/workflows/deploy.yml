@@ -40,6 +40,8 @@
 #               devops-web
 
 name: GitHub Context Demo
+env:
+  APP_NAME: my-github-actions-demo
 
 on:
   push:
@@ -60,3 +62,5 @@ jobs:
           echo "Workflow: ${{ github.workflow }}"
           echo "Event: ${{ github.event_name }}"
           echo "app_name: ${{ env.APP_NAME }}"
+          echo " owner: ${{secrets.OWNER }}"
+          echo " home: ${{var.VAR_HOME}}"
