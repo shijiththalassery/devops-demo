@@ -57,3 +57,4 @@ jobs:
           echo "Commit: ${{ github.sha }}"
           echo "Workflow: ${{ github.workflow }}"
           echo "Event: ${{ github.event_name }}"
+          echo "app_name: ${{ env.APP_NAME }}"
