@@ -42,7 +42,9 @@
 name: GitHub Context Demo
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   github-context:
